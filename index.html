@@ -2,101 +2,109 @@
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
-    <title>Happy Birthday ❤️</title>
+    <title>Birthday AR</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
-    <!-- A-Frame -->
-    <script src="https://aframe.io/releases/1.4.0/aframe.min.js"></script>
-    <!-- AR.js for A-Frame -->
-    <script src="https://cdn.jsdelivr.net/gh/AR-js-org/AR.js@3.4.0/aframe/build/aframe-ar.js"></script>
+    <!-- A-Frame + MindAR CDN -->
+    <script src="https://unpkg.com/aframe@1.4.2/dist/aframe.min.js"></script>
+    <script src="https://unpkg.com/mind-ar/dist/mindar-image-aframe.prod.js"></script>
 
     <style>
-      body {
+      body, html {
         margin: 0;
+        padding: 0;
         overflow: hidden;
-        font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+        width: 100%;
+        height: 100%;
+        background: #000;
       }
-      .hint {
+      #ar-container {
+        width: 100%;
+        height: 100%;
         position: fixed;
-        bottom: 16px;
-        left: 50%;
-        transform: translateX(-50%);
-        background: rgba(0, 0, 0, 0.6);
-        color: #fff;
-        padding: 8px 16px;
-        border-radius: 999px;
-        font-size: 12px;
+        top: 0;
+        left: 0;
       }
     </style>
   </head>
   <body>
-    <!-- Optional background music (put birthday.mp3 in same folder if you want) -->
-    <!--
-    <audio id="bgm" src="birthday.mp3" preload="auto"></audio>
-    -->
+    <div id="ar-container">
+      <a-scene
+        mindar-image="imageTargetSrc: ./assets/targets.mind; autoStart: true;"
+        vr-mode-ui="enabled: false"
+        device-orientation-permission-ui="enabled: false"
+        embedded
+      >
+        <a-assets>
+          <img id="card" src="./assets/card.png" />
+          <img id="balloon" src="./assets/balloon.png" />
+          <img id="star" src="./assets/star.png" />
+          <img id="hbd" src="./assets/hbd.png" />
+          <audio id="music" src="./assets/music.mp3"></audio>
+        </a-assets>
 
-    <div class="hint">
-      Arahkan kamera ke kartu ulang tahun 💌
+        <a-camera position="0 0 0"></a-camera>
+
+        <!-- Everything appears when the target image is detected -->
+        <a-entity mindar-image-target="targetIndex: 0">
+
+          <!-- Main card -->
+          <a-plane
+            src="#card"
+            width="1.2"
+            height="1.5"
+            position="0 0 0"
+            animation="property: scale; to: 1.05 1.05 1; dir: alternate; loop: true; dur: 1200; easing: easeInOutSine"
+          ></a-plane>
+
+          <!-- Happy Birthday text floating above -->
+          <a-image
+            src="#hbd"
+            width="1"
+            height="0.4"
+            position="0 0.9 0.01"
+            animation="property: position; to: 0 1.0 0.01; dir: alternate; loop: true; dur: 1500; easing: easeInOutSine"
+          ></a-image>
+
+          <!-- Left balloon bobbing -->
+          <a-image
+            src="#balloon"
+            width="0.35"
+            height="0.6"
+            position="-0.8 0.4 0.02"
+            animation="property: position; to: -0.8 0.7 0.02; dir: alternate; loop: true; dur: 1800; easing: easeInOutSine"
+          ></a-image>
+
+          <!-- Right balloon bobbing -->
+          <a-image
+            src="#balloon"
+            width="0.35"
+            height="0.6"
+            position="0.8 0.4 0.02"
+            animation="property: position; to: 0.8 0.7 0.02; dir: alternate; loop: true; dur: 1600; easing: easeInOutSine"
+          ></a-image>
+
+          <!-- Spinning stars -->
+          <a-image
+            src="#star"
+            width="0.25"
+            height="0.25"
+            position="-0.4 1.3 0.02"
+            animation="property: rotation; to: 0 0 360; loop: true; dur: 3000; easing: linear"
+          ></a-image>
+
+          <a-image
+            src="#star"
+            width="0.25"
+            height="0.25"
+            position="0.4 1.3 0.02"
+            animation="property: rotation; to: 0 0 -360; loop: true; dur: 3000; easing: linear"
+          ></a-image>
+
+          <!-- Music -->
+          <a-entity sound="src: #music; autoplay: true; loop: true; volume: 0.6"></a-entity>
+        </a-entity>
+      </a-scene>
     </div>
-
-    <a-scene
-      embedded
-      vr-mode-ui="enabled: false"
-      arjs="sourceType: webcam; debugUIEnabled: false;"
-    >
-      <!-- Marker: we use built-in 'hiro' marker -->
-      <a-marker preset="hiro">
-        <!-- Floating hearts -->
-        <a-entity
-          geometry="primitive: sphere; radius: 0.2"
-          material="color: #ff5c93; opacity: 0.9"
-          position="0 0.4 0"
-          animation="property: position; to: 0 0.7 0; dir: alternate; dur: 1200; loop: true; easing: easeInOutSine"
-        ></a-entity>
-
-        <a-entity
-          geometry="primitive: sphere; radius: 0.12"
-          material="color: #ffd1e3; opacity: 0.9"
-          position="-0.3 0.25 0"
-          animation="property: position; to: -0.3 0.55 0; dir: alternate; dur: 1500; loop: true; easing: easeInOutSine"
-        ></a-entity>
-
-        <a-entity
-          geometry="primitive: sphere; radius: 0.12"
-          material="color: #ffd1e3; opacity: 0.9"
-          position="0.3 0.25 0"
-          animation="property: position; to: 0.3 0.55 0; dir: alternate; dur: 1500; loop: true; easing: easeInOutSine"
-        ></a-entity>
-
-        <!-- Birthday text -->
-        <a-entity
-          position="0 0 0"
-          rotation="-90 0 0"
-          text="value: Happy Birthday Nola!; align: center; color: #ffffff; width: 2.8"
-        ></a-entity>
-
-        <a-entity
-          position="0 -0.25 0"
-          rotation="-90 0 0"
-          text="value: From Qi, with all my heart ❤️; align: center; color: #ffd1e3; width: 2.4"
-        ></a-entity>
-      </a-marker>
-
-      <!-- Camera -->
-      <a-entity camera></a-entity>
-    </a-scene>
-
-    <!-- Optional script to start music on first tap (if you add bgm) -->
-    <!--
-    <script>
-      const bgm = document.getElementById("bgm");
-      let started = false;
-      document.body.addEventListener("click", () => {
-        if (!started && bgm) {
-          bgm.play().catch(() => {});
-          started = true;
-        }
-      });
-    </script>
-    -->
   </body>
 </html>
