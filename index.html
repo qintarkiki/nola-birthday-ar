@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Happy Birthday ❤️</title>
+
+    <!-- A-Frame -->
+    <script src="https://aframe.io/releases/1.4.0/aframe.min.js"></script>
+    <!-- AR.js for A-Frame -->
+    <script src="https://cdn.jsdelivr.net/gh/AR-js-org/AR.js@3.4.0/aframe/build/aframe-ar.js"></script>
+
+    <style>
+      body {
+        margin: 0;
+        overflow: hidden;
+        font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      }
+      .hint {
+        position: fixed;
+        bottom: 16px;
+        left: 50%;
+        transform: translateX(-50%);
+        background: rgba(0, 0, 0, 0.6);
+        color: #fff;
+        padding: 8px 16px;
+        border-radius: 999px;
+        font-size: 12px;
+      }
+    </style>
+  </head>
+  <body>
+    <!-- Optional background music (put birthday.mp3 in same folder if you want) -->
+    <!--
+    <audio id="bgm" src="birthday.mp3" preload="auto"></audio>
+    -->
+
+    <div class="hint">
+      Arahkan kamera ke kartu ulang tahun 💌
+    </div>
+
+    <a-scene
+      embedded
+      vr-mode-ui="enabled: false"
+      arjs="sourceType: webcam; debugUIEnabled: false;"
+    >
+      <!-- Marker: we use built-in 'hiro' marker -->
+      <a-marker preset="hiro">
+        <!-- Floating hearts -->
+        <a-entity
+          geometry="primitive: sphere; radius: 0.2"
+          material="color: #ff5c93; opacity: 0.9"
+          position="0 0.4 0"
+          animation="property: position; to: 0 0.7 0; dir: alternate; dur: 1200; loop: true; easing: easeInOutSine"
+        ></a-entity>
+
+        <a-entity
+          geometry="primitive: sphere; radius: 0.12"
+          material="color: #ffd1e3; opacity: 0.9"
+          position="-0.3 0.25 0"
+          animation="property: position; to: -0.3 0.55 0; dir: alternate; dur: 1500; loop: true; easing: easeInOutSine"
+        ></a-entity>
+
+        <a-entity
+          geometry="primitive: sphere; radius: 0.12"
+          material="color: #ffd1e3; opacity: 0.9"
+          position="0.3 0.25 0"
+          animation="property: position; to: 0.3 0.55 0; dir: alternate; dur: 1500; loop: true; easing: easeInOutSine"
+        ></a-entity>
+
+        <!-- Birthday text -->
+        <a-entity
+          position="0 0 0"
+          rotation="-90 0 0"
+          text="value: Happy Birthday Nola!; align: center; color: #ffffff; width: 2.8"
+        ></a-entity>
+
+        <a-entity
+          position="0 -0.25 0"
+          rotation="-90 0 0"
+          text="value: From Qi, with all my heart ❤️; align: center; color: #ffd1e3; width: 2.4"
+        ></a-entity>
+      </a-marker>
+
+      <!-- Camera -->
+      <a-entity camera></a-entity>
+    </a-scene>
+
+    <!-- Optional script to start music on first tap (if you add bgm) -->
+    <!--
+    <script>
+      const bgm = document.getElementById("bgm");
+      let started = false;
+      document.body.addEventListener("click", () => {
+        if (!started && bgm) {
+          bgm.play().catch(() => {});
+          started = true;
+        }
+      });
+    </script>
+    -->
+  </body>
+</html>
