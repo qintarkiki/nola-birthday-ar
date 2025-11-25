@@ -19,7 +19,6 @@
         background: #000;
       }
 
-      /* Make the AR scene & video fill the whole screen */
       .ar-container {
         position: fixed;
         inset: 0;
@@ -52,128 +51,123 @@
 
     <div class="ar-container">
       <a-scene
-        mindar-image="imageTargetSrc: ./assets/targets.mind?v=2"
+        mindar-image="imageTargetSrc: ./targets.mind; autoStart: true;"
         color-space="sRGB"
-        renderer="colorManagement: true, physicallyCorrectLights; alpha: true"
+        renderer="colorManagement: true; antialias: true; alpha: true"
         vr-mode-ui="enabled: false"
         device-orientation-permission-ui="enabled: false"
       >
         <a-assets>
-          <img id="card" src="./assets/card.png?v=2" />
-          <img id="balloon" src="./assets/balloon.png?v=2" />
-          <img id="hat" src="./assets/hat.png?v=2" />
-          <img id="hbd" src="./assets/hbd.png?v=2" />
-          <img id="present1" src="./assets/present-1.png?v=2" />
-          <img id="present2" src="./assets/present-2.png?v=2" />
-          <img id="present3" src="./assets/present-3.png?v=2" />
-          <img id="rainbow" src="./assets/rainbow.png?v=2" />
-          <img id="star1" src="./assets/star.png?v=2" />
-          <img id="star2" src="./assets/star-2.png?v=2" />
+          <img id="card" src="./card.png?v=3" />
+          <img id="balloon" src="./balloon.png?v=3" />
+          <img id="hat" src="./hat.png?v=3" />
+          <img id="hbd" src="./hbd.png?v=3" />
+          <img id="present1" src="./present-1.png?v=3" />
+          <img id="present2" src="./present-2.png?v=3" />
+          <img id="present3" src="./present-3.png?v=3" />
+          <img id="rainbow" src="./rainbow.png?v=3" />
+          <img id="star1" src="./star.png?v=3" />
+          <img id="star2" src="./star-2.png?v=3" />
         </a-assets>
 
-        <!-- Target index 0 from targets.mind -->
+        <a-camera position="0 0 0" look-controls="enabled: false"></a-camera>
+
+        <!-- Everything is attached to the tracked card image -->
         <a-entity mindar-image-target="targetIndex: 0">
 
-          <!-- Paper / floor -->
-          <a-plane
-            color="#444"
-            opacity="0.5"
-            width="2.4"
-            height="2"
-            rotation="-90 0 0"
-            position="0 -0.1 0"
-          ></a-plane>
-
-          <!-- Main card upright -->
+          <!-- MAIN CARD (upright, center) -->
           <a-plane
             src="#card"
             width="1.4"
-            height="2"
+            height="2.0"
             position="0 0 0"
             rotation="0 0 0"
-            animation__bob="property: position; to: 0 0.05 0; dir: alternate; loop: true; dur: 1100; easing: easeInOutSine"
-            animation__scale="property: scale; to: 1.03 1.03 1; dir: alternate; loop: true; dur: 900; easing: easeInOutSine"
+            animation__bob="property: position; to: 0 0.05 0; dir: alternate; loop: true; dur: 1200; easing: easeInOutSine"
           ></a-plane>
 
-          <!-- Happy birthday text in front -->
+          <!-- HAPPY BIRTHDAY (static, just slightly in front) -->
           <a-image
             src="#hbd"
-            width="1.6"
+            width="1.7"
             height="0.6"
-            position="0 0.95 0.08"
-            animation__float="property: position; to: 0 1.05 0.12; dir: alternate; loop: true; dur: 1000; easing: easeInOutSine"
-            animation__tilt="property: rotation; to: 0 10 0; dir: alternate; loop: true; dur: 1500; easing: easeInOutSine"
+            position="0 1.0 0.08"
+            rotation="0 0 0"
           ></a-image>
 
-          <!-- Rainbow behind -->
+          <!-- RAINBOW (behind card for depth) -->
           <a-image
             src="#rainbow"
             width="1.6"
             height="0.7"
-            position="0 1.2 -0.15"
-            animation="property: position; to: 0.05 1.25 -0.2; dir: alternate; loop: true; dur: 1700; easing: easeInOutSine"
+            position="0 1.25 -0.12"
+            rotation="0 0 0"
           ></a-image>
 
-          <!-- Hat -->
+          <!-- PARTY HAT (small wiggle, in front) -->
           <a-image
             src="#hat"
-            width="0.5"
-            height="0.5"
+            width="0.55"
+            height="0.55"
             position="0 0.45 0.06"
+            rotation="0 0 0"
             animation__pos="property: position; to: 0 0.55 0.08; dir: alternate; loop: true; dur: 1200; easing: easeInOutSine"
-            animation__rot="property: rotation; to: 0 0 12; dir: alternate; loop: true; dur: 1600; easing: easeInOutSine"
+            animation__rot="property: rotation; to: 0 0 10; dir: alternate; loop: true; dur: 1600; easing: easeInOutSine"
           ></a-image>
 
-          <!-- Balloons -->
+          <!-- BALLOONS (left/right, gently floating) -->
           <a-image
             src="#balloon"
             width="0.6"
             height="0.9"
-            position="-0.9 0.4 0.18"
-            animation="property: position; to: -0.9 0.8 0.22; dir: alternate; loop: true; dur: 1800; easing: easeInOutSine"
+            position="-0.95 0.4 0.12"
+            rotation="0 0 0"
+            animation="property: position; to: -0.95 0.8 0.16; dir: alternate; loop: true; dur: 1800; easing: easeInOutSine"
           ></a-image>
 
           <a-image
             src="#balloon"
             width="0.6"
             height="0.9"
-            position="0.9 0.35 0.18"
-            animation="property: position; to: 0.9 0.75 0.22; dir: alternate; loop: true; dur: 1500; easing: easeInOutSine"
+            position="0.95 0.35 0.12"
+            rotation="0 0 0"
+            animation="property: position; to: 0.95 0.75 0.16; dir: alternate; loop: true; dur: 1500; easing: easeInOutSine"
           ></a-image>
 
-          <!-- Presents -->
+          <!-- PRESENTS (below, slight depth stagger) -->
           <a-image
             src="#present1"
             width="0.5"
             height="0.5"
-            position="-0.7 -0.35 0.05"
-            rotation="-5 10 0"
-            animation="property: rotation; to: -5 -10 0; dir: alternate; loop: true; dur: 1400; easing: easeInOutSine"
+            position="-0.7 -0.6 0.05"
+            rotation="0 8 0"
+            animation="property: rotation; to: 0 -8 0; dir: alternate; loop: true; dur: 1400; easing: easeInOutSine"
           ></a-image>
 
           <a-image
             src="#present2"
             width="0.5"
             height="0.5"
-            position="0 -0.4 0.0"
-            animation="property: scale; to: 1.2 1.2 1; dir: alternate; loop: true; dur: 1300; easing: easeInOutSine"
+            position="0 -0.7 0.0"
+            rotation="0 0 0"
+            animation="property: scale; to: 1.15 1.15 1; dir: alternate; loop: true; dur: 1300; easing: easeInOutSine"
           ></a-image>
 
           <a-image
             src="#present3"
             width="0.5"
             height="0.5"
-            position="0.7 -0.35 -0.05"
-            rotation="-5 -10 0"
-            animation="property: rotation; to: -5 10 0; dir: alternate; loop: true; dur: 1500; easing: easeInOutSine"
+            position="0.7 -0.6 -0.05"
+            rotation="0 -8 0"
+            animation="property: rotation; to: 0 8 0; dir: alternate; loop: true; dur: 1500; easing: easeInOutSine"
           ></a-image>
 
-          <!-- Stars -->
+          <!-- STARS (one behind, one in front) -->
           <a-image
             src="#star1"
             width="0.35"
             height="0.35"
-            position="-1.1 0.4 -0.2"
+            position="-1.1 0.3 -0.18"
+            rotation="0 0 0"
             animation__pulse="property: scale; to: 1.6 1.6 1; dir: alternate; loop: true; dur: 800; easing: easeInOutSine"
             animation__spin="property: rotation; to: 0 0 360; loop: true; dur: 3500; easing: linear"
           ></a-image>
@@ -182,14 +176,13 @@
             src="#star2"
             width="0.35"
             height="0.35"
-            position="1.1 0.5 0.16"
+            position="1.1 0.4 0.18"
+            rotation="0 0 0"
             animation__pulse="property: scale; to: 1.6 1.6 1; dir: alternate; loop: true; dur: 900; easing: easeInOutSine"
             animation__spin="property: rotation; to: 0 0 -360; loop: true; dur: 3200; easing: linear"
           ></a-image>
 
         </a-entity>
-
-        <a-camera position="0 0 0" look-controls="enabled: false"></a-camera>
       </a-scene>
     </div>
 
