@@ -5,9 +5,9 @@
     <title>Nola Birthday AR</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
-    <!-- A-Frame + AR.js (marker-based) -->
-    <script src="https://aframe.io/releases/1.2.0/aframe.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/gh/AR-js-org/AR.js@3.4.5/aframe/build/aframe-ar.js"></script>
+    <!-- A-Frame + MindAR -->
+    <script src="https://aframe.io/releases/1.4.0/aframe.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/mind-ar@1.2.5/dist/mindar-image-aframe.prod.js"></script>
 
     <style>
       html, body {
@@ -36,12 +36,12 @@
     <div id="debug">Loading AR…</div>
 
     <a-scene
+      mindar-image="imageTargetSrc: ./assets/targets.mind; autoStart: true;"
       embedded
       vr-mode-ui="enabled: false"
-      renderer="logarithmicDepthBuffer: true; antialias: true;"
-      arjs="sourceType: webcam; debugUIEnabled: false;"
+      device-orientation-permission-ui="enabled: false"
+      renderer="colorManagement: true; antialias: true;"
     >
-      <!-- Load all textures -->
       <a-assets>
         <img id="card" src="./assets/card.png" />
         <img id="balloon" src="./assets/balloon.png" />
@@ -55,115 +55,117 @@
         <img id="star2" src="./assets/star-2.png" />
       </a-assets>
 
-      <!-- Marker: use standard Hiro marker -->
-      <a-marker preset="hiro">
+      <a-camera position="0 0 0"></a-camera>
 
-        <!-- PAPER BASE (lies flat on marker) -->
+      <!-- All content attached to targetIndex 0 (your card.png) -->
+      <a-entity mindar-image-target="targetIndex: 0">
+
+        <!-- BASE: like a paper lying on the card -->
         <a-plane
           color="#ffffff"
-          opacity="0.4"
-          width="2"
-          height="2.5"
-          rotation="-90 0 0"
+          opacity="0.35"
+          width="1.8"
+          height="2.2"
           position="0 0 0"
+          rotation="-90 0 0"
         ></a-plane>
 
-        <!-- MAIN CARD (vertical, popping up from paper) -->
+        <!-- MAIN CARD: standing up from the paper -->
         <a-plane
           src="#card"
-          width="1.4"
-          height="2"
-          position="0 1 0"
+          width="1.3"
+          height="1.9"
+          position="0 0.9 0"
           rotation="0 0 0"
-          animation__bob="property: position; to: 0 1.1 0; dir: alternate; loop: true; dur: 1200; easing: easeInOutSine"
+          animation__bob="property: position; to: 0 1.0 0; dir: alternate; loop: true; dur: 1200; easing: easeInOutSine"
           animation__scale="property: scale; to: 1.03 1.03 1; dir: alternate; loop: true; dur: 900; easing: easeInOutSine"
         ></a-plane>
 
-        <!-- HAPPY BIRTHDAY TEXT (slightly in front of card) -->
+        <!-- HAPPY BIRTHDAY: slightly in front, higher -->
         <a-image
           src="#hbd"
-          width="1.6"
-          height="0.6"
-          position="0 1.9 0.08"
+          width="1.5"
+          height="0.55"
+          position="0 1.8 0.12"
           rotation="0 0 0"
-          animation__float="property: position; to: 0 2.0 0.12; dir: alternate; loop: true; dur: 1100; easing: easeInOutSine"
+          animation__float="property: position; to: 0 1.9 0.16; dir: alternate; loop: true; dur: 1100; easing: easeInOutSine"
           animation__tilt="property: rotation; to: 0 10 0; dir: alternate; loop: true; dur: 1500; easing: easeInOutSine"
         ></a-image>
 
-        <!-- RAINBOW (behind card = depth) -->
+        <!-- RAINBOW: behind the card (depth) -->
         <a-image
           src="#rainbow"
-          width="1.6"
-          height="0.7"
-          position="0 2.2 -0.12"
+          width="1.4"
+          height="0.6"
+          position="0 2.1 -0.18"
           rotation="0 0 0"
-          animation="property: position; to: 0.1 2.25 -0.16; dir: alternate; loop: true; dur: 1800; easing: easeInOutSine"
+          animation="property: position; to: 0.05 2.2 -0.22; dir: alternate; loop: true; dur: 1800; easing: easeInOutSine"
         ></a-image>
 
-        <!-- PARTY HAT (just above heads, a bit forward) -->
+        <!-- PARTY HAT: above heads, a bit forward -->
         <a-image
           src="#hat"
-          width="0.6"
-          height="0.6"
-          position="0 1.4 0.05"
+          width="0.55"
+          height="0.55"
+          position="0 1.3 0.08"
           rotation="0 0 0"
-          animation__pos="property: position; to: 0 1.5 0.08; dir: alternate; loop: true; dur: 1200; easing: easeInOutSine"
+          animation__pos="property: position; to: 0 1.4 0.12; dir: alternate; loop: true; dur: 1200; easing: easeInOutSine"
           animation__rot="property: rotation; to: 0 0 10; dir: alternate; loop: true; dur: 1600; easing: easeInOutSine"
         ></a-image>
 
-        <!-- BALLOONS (left/right, closer to camera) -->
+        <!-- BALLOONS: left/right, closer to camera -->
         <a-image
           src="#balloon"
-          width="0.6"
-          height="0.9"
-          position="-0.9 1.4 0.18"
+          width="0.55"
+          height="0.85"
+          position="-0.8 1.3 0.22"
           rotation="0 0 0"
-          animation="property: position; to: -0.9 1.8 0.2; dir: alternate; loop: true; dur: 1900; easing: easeInOutSine"
+          animation="property: position; to: -0.8 1.7 0.26; dir: alternate; loop: true; dur: 1900; easing: easeInOutSine"
         ></a-image>
 
         <a-image
           src="#balloon"
-          width="0.6"
-          height="0.9"
-          position="0.9 1.3 0.18"
+          width="0.55"
+          height="0.85"
+          position="0.8 1.2 0.22"
           rotation="0 0 0"
-          animation="property: position; to: 0.9 1.7 0.22; dir: alternate; loop: true; dur: 1600; easing: easeInOutSine"
+          animation="property: position; to: 0.8 1.6 0.26; dir: alternate; loop: true; dur: 1600; easing: easeInOutSine"
         ></a-image>
 
-        <!-- PRESENTS (on the paper, different depths) -->
+        <!-- PRESENTS: on the base plane at different depths -->
         <a-image
           src="#present1"
-          width="0.55"
-          height="0.55"
-          position="-0.9 0.3 0.06"
+          width="0.5"
+          height="0.5"
+          position="-0.75 0.25 0.06"
           rotation="0 10 0"
           animation="property: rotation; to: 0 -10 0; dir: alternate; loop: true; dur: 1400; easing: easeInOutSine"
         ></a-image>
 
         <a-image
           src="#present2"
-          width="0.55"
-          height="0.55"
-          position="0 0.15 0.02"
+          width="0.5"
+          height="0.5"
+          position="0 0.1 0.02"
           rotation="0 0 0"
           animation="property: scale; to: 1.2 1.2 1; dir: alternate; loop: true; dur: 1300; easing: easeInOutSine"
         ></a-image>
 
         <a-image
           src="#present3"
-          width="0.55"
-          height="0.55"
-          position="0.9 0.3 -0.04"
+          width="0.5"
+          height="0.5"
+          position="0.75 0.25 -0.04"
           rotation="0 -10 0"
           animation="property: rotation; to: 0 10 0; dir: alternate; loop: true; dur: 1500; easing: easeInOutSine"
         ></a-image>
 
-        <!-- STARS floating in different depth layers -->
+        <!-- STARS: in front & behind -->
         <a-image
           src="#star1"
-          width="0.35"
-          height="0.35"
-          position="-1.2 1.0 -0.18"
+          width="0.32"
+          height="0.32"
+          position="-1.1 0.9 -0.22"
           rotation="0 0 0"
           animation__pulse="property: scale; to: 1.6 1.6 1; dir: alternate; loop: true; dur: 800; easing: easeInOutSine"
           animation__spin="property: rotation; to: 0 0 360; loop: true; dur: 3500; easing: linear"
@@ -171,26 +173,40 @@
 
         <a-image
           src="#star2"
-          width="0.35"
-          height="0.35"
-          position="1.2 1.1 0.16"
+          width="0.32"
+          height="0.32"
+          position="1.1 1.0 0.20"
           rotation="0 0 0"
           animation__pulse="property: scale; to: 1.6 1.6 1; dir: alternate; loop: true; dur: 900; easing: easeInOutSine"
           animation__spin="property: rotation; to: 0 0 -360; loop: true; dur: 3200; easing: linear"
         ></a-image>
 
-      </a-marker>
-
-
-      <!-- Camera -->
-      <a-entity camera></a-entity>
+      </a-entity>
     </a-scene>
 
     <script>
       const debug = document.getElementById('debug');
-      window.addEventListener('load', () => {
-        debug.textContent = 'Point your camera at the Hiro marker 🎯';
+      const scene = document.querySelector('a-scene');
+      const target = document.querySelector('[mindar-image-target]');
+
+      debug.textContent = 'Loading AR… (allow camera if asked)';
+
+      scene.addEventListener('arReady', () => {
+        debug.textContent = 'AR ready – point at your illustrated card 😊';
       });
+
+      scene.addEventListener('arError', (e) => {
+        debug.textContent = 'AR error: ' + JSON.stringify(e.detail || {});
+      });
+
+      if (target) {
+        target.addEventListener('targetFound', () => {
+          debug.textContent = 'Target FOUND 🎉';
+        });
+        target.addEventListener('targetLost', () => {
+          debug.textContent = 'Target lost – move camera closer.';
+        });
+      }
     </script>
   </body>
 </html>
